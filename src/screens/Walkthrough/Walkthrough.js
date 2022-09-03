@@ -4,8 +4,17 @@ import {View, Animated, Text} from 'react-native';
 import {TextButton} from '../../components';
 import {COLORS, SIZES, constants, FONTS} from '../../constants';
 import Walkthrough1 from './Walkthrough1';
+import Walkthrough2 from './Walkthrough2';
 
 const Walkthrough = () => {
+  const [walkthrough2Animate, setWalkthrough2Animate] = React.useState(false);
+  const onViewChangeRef = React.useRef(({viewableItems, changed}) => {
+    if (viewableItems[0].index === 1) {
+      // Walkthrough2
+      setWalkthrough2Animate(true);
+    }
+  });
+
   const scrollX = React.useRef(new Animated.Value(0)).current;
 
   const Dots = () => {
@@ -95,6 +104,7 @@ const Walkthrough = () => {
         decelerationRate="fast"
         showsHorizontalScrollIndicator={false}
         scrollEventThrottle={16}
+        onViewableItemsChanged={onViewChangeRef.current}
         onScroll={Animated.event(
           [
             {
@@ -109,6 +119,7 @@ const Walkthrough = () => {
               {/* Walkthrough Images */}
               <View style={{flex: 1, justifyContent: 'center'}}>
                 {index === 0 && <Walkthrough1 />}
+                {index === 1 && <Walkthrough2 animate={walkthrough2Animate} />}
               </View>
 
               {/* Title & Descriptions */}
