@@ -59,7 +59,6 @@ const AuthMain = () => {
             flag: `https://countryflagsapi.com/png/${item.alpha2Code}`,
           };
         });
-        console.log(countryData);
         setCountries(countryData);
       });
   }, []);
@@ -376,6 +375,89 @@ const AuthMain = () => {
     );
   }
 
+  const renderAuthContainerFooter = () => {
+    return (
+      <View
+        style={{
+          flexDirection: 'row',
+          height: 80,
+          alignItems: 'flex-end',
+          justifyContent: 'center',
+          marginTop: -30,
+          marginHorizontal: SIZES.radius,
+          paddingBottom: SIZES.radius,
+          borderBottomLeftRadius: SIZES.radius,
+          borderBottomRightRadius: SIZES.radius,
+          backgroundColor: COLORS.light60,
+          zIndex: 0,
+        }}>
+        <Text style={{color: COLORS.grey, ...FONTS.body5}}>
+          {mode === 'signIn'
+            ? "Don't have an account?"
+            : 'I already have an account.'}
+        </Text>
+        <TextButton
+          label={mode === 'signIn' ? 'Create New Account' : 'Sign In'}
+          contentContainerStyle={{
+            marginleft: SIZES.base,
+            backgroundColor: null,
+          }}
+          labelStyle={{color: COLORS.support3, ...FONTS.h5}}
+          onPress={() => {
+            if (animationState.current === 'signIn') {
+              animationState.transitionTo('signUp');
+              setMode('signUp');
+            } else {
+              animationState.transitionTo('signIn');
+              setMode('signIn');
+            }
+          }}
+        />
+      </View>
+    );
+  };
+
+  const renderSocialLogins = () => {
+    return (
+      <View
+        style={{
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginTop: -30,
+          zIndex: -1,
+        }}>
+        <Text style={{color: COLORS.dark, ...FONTS.body3}}>Or login with</Text>
+
+        <View style={{flexDirection: 'row', marginTop: SIZES.radius}}>
+          <IconButton
+            icon={icons.twitter}
+            iconStyle={{tintColor: COLORS.dark}}
+            containerStyle={styles.socialButtonContainer}
+          />
+
+          <IconButton
+            icon={icons.google}
+            iconStyle={{tintColor: COLORS.dark}}
+            containerStyle={{
+              ...styles.socialButtonContainer,
+              marginLeft: SIZES.radius,
+            }}
+          />
+
+          <IconButton
+            icon={icons.linkedin}
+            iconStyle={{tintColor: COLORS.dark}}
+            containerStyle={{
+              ...styles.socialButtonContainer,
+              marginLeft: SIZES.radius,
+            }}
+          />
+        </View>
+      </View>
+    );
+  };
+
   return (
     <View
       style={{
@@ -395,22 +477,15 @@ const AuthMain = () => {
       />
 
       {/* Auth Container */}
-      <View>{renderAuthContainer()}</View>
+      <View style={{zIndex: 1}}>{renderAuthContainer()}</View>
 
-      <View>{renderCountryModal()}</View>
+      {renderAuthContainerFooter()}
 
-      <TextButton
-        label="Toggle"
-        onPress={() => {
-          if (animationState.current === 'signIn') {
-            animationState.transitionTo('signUp');
-            setMode('signUp');
-          } else {
-            animationState.transitionTo('signIn');
-            setMode('signIn');
-          }
-        }}
-      />
+      {/* Social Logins */}
+      {mode === 'signIn' && renderSocialLogins()}
+
+      {/* Country Modal */}
+      {renderCountryModal()}
     </View>
   );
 };
@@ -422,7 +497,15 @@ const styles = StyleSheet.create({
     padding: SIZES.padding,
     borderRadius: SIZES.radius,
     backgroundColor: COLORS.light,
-    // borderWidth: 1,
+    zIndex: 1,
+  },
+  socialButtonContainer: {
+    width: 55,
+    height: 55,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: SIZES.radius,
+    backgroundColor: COLORS.grey20,
   },
 });
 
