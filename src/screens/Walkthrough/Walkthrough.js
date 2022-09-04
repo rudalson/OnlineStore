@@ -6,7 +6,7 @@ import {COLORS, SIZES, constants, FONTS} from '../../constants';
 import Walkthrough1 from './Walkthrough1';
 import Walkthrough2 from './Walkthrough2';
 
-const Walkthrough = () => {
+const Walkthrough = ({navigation}) => {
   const [walkthrough2Animate, setWalkthrough2Animate] = React.useState(false);
   const onViewChangeRef = React.useRef(({viewableItems, changed}) => {
     if (viewableItems[0].index === 1) {
@@ -88,6 +88,9 @@ const Walkthrough = () => {
               backgroundColor: COLORS.primary,
             }}
             labelStyle={{...FONTS.h3}}
+            onPress={() => {
+              navigation.reset({index: 0, routes: [{name: 'AuthMain'}]});
+            }}
           />
         </View>
       </View>
