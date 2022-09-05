@@ -22,7 +22,7 @@ import {
 } from '../../components';
 import {icons, images, COLORS, FONTS, SIZES} from '../../constants';
 
-const AuthMain = () => {
+const AuthMain = ({navigation}) => {
   // States
   const [mode, setMode] = React.useState('signIn');
   const [isVisible, setIsVisible] = React.useState(false);
@@ -152,7 +152,7 @@ const AuthMain = () => {
                 backgroundColor: COLORS.primary,
               }}
               labelStyle={{...FONTS.h3}}
-              onPress={() => console.log('Log In')}
+              onPress={() => navigation.navigate('Home')}
             />
           </View>
         </Shadow>
